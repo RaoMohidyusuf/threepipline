@@ -39,4 +39,5 @@ jobs:
         env:
           FIRST_VAR: ${{ needs.call-other-pipelines.outputs.VAR_FROM_FIRST_PIPELINE }}
           SECOND_VAR: ${{ needs.call-other-pipelines.outputs.VAR_FROM_SECOND_PIPELINE }}
-        run: echo "First Pipeline Output: $FIRST_VAR, Second Pipeline Output: $SECOND_VAR"
+        run:
+           'echo "First Pipeline Output: $FIRST_VAR, Second Pipeline Output: $SECOND_VAR"'
