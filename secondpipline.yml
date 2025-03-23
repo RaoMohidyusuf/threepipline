@@ -1,0 +1,19 @@
+name: Second Pipeline
+
+on:
+  workflow_dispatch:
+
+jobs:
+  generate-value:
+    runs-on: ubuntu-latest
+    outputs:
+      VAR_FROM_SECOND_PIPELINE: ${{ steps.generate.outputs.VAR_FROM_SECOND_PIPELINE }}
+
+    steps:
+      - name: Generate New Value
+        id: generate
+        run: echo "VAR_FROM_SECOND_PIPELINE=Hello from Second Pipeline" >> $GITHUB_ENV
+
+      - name: Output Variable
+        id: output
+        run: echo "VAR_FROM_SECOND_PIPELINE=Hello from Second Pipeline" >> $GITHUB_OUTPUT

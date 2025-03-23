@@ -1,0 +1,19 @@
+name: First Pipeline
+
+on:
+  workflow_dispatch:  # Trigger manually or via API
+
+jobs:
+  setup-env:
+    runs-on: ubuntu-latest
+    outputs:
+      VAR_FROM_FIRST_PIPELINE: ${{ steps.set-vars.outputs.VAR_FROM_FIRST_PIPELINE }}
+
+    steps:
+      - name: Set Variables
+        id: set-vars
+        run: echo "VAR_FROM_FIRST_PIPELINE=Hello from First Pipeline" >> $GITHUB_ENV
+
+      - name: Output Variable
+        id: output
+        run: echo "VAR_FROM_FIRST_PIPELINE=Hello from First Pipeline" >> $GITHUB_OUTPUT

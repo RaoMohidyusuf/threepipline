@@ -1,0 +1,42 @@
+name: Third Pipeline
+
+on:
+  workflow_dispatch:
+
+jobs:
+  call-other-pipelines:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger First Pipeline
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const response = await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: "first-pipeline.yml",
+              ref: context.ref
+            });
+            console.log("Triggered First Pipeline:", response.status);
+
+      - name: Trigger Second Pipeline
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const response = await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: "second-pipeline.yml",
+              ref: context.ref
+            });
+            console.log("Triggered Second Pipeline:", response.status);
+
+  process-results:
+    needs: call-other-pipelines
+    runs-on: ubuntu-latest
+    steps:
+      - name: Use Variables from First and Second Pipelines
+        env:
+          FIRST_VAR: ${{ needs.call-other-pipelines.outputs.VAR_FROM_FIRST_PIPELINE }}
+          SECOND_VAR: ${{ needs.call-other-pipelines.outputs.VAR_FROM_SECOND_PIPELINE }}
+        run: echo "First Pipeline Output: $FIRST_VAR, Second Pipeline Output: $SECOND_VAR"
