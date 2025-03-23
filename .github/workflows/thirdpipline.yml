@@ -16,7 +16,7 @@ jobs:
             const response = await github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              workflow_id: "first-pipeline.yml",
+              workflow_id: "firstpipeline.yml",
               ref: context.ref
             });
             console.log("Triggered First Pipeline:", response.status);
@@ -28,7 +28,7 @@ jobs:
             const response = await github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              workflow_id: "second-pipeline.yml",
+              workflow_id: "secondpipeline.yml",
               ref: context.ref
             });
             console.log("Triggered Second Pipeline:", response.status);
