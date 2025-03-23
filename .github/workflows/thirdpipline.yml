@@ -4,6 +4,9 @@ on:
   push :
       branches:
         - master
+permissions:
+  actions: write 
+  contents: read
 
 jobs:
   call-other-pipelines:
@@ -12,6 +15,7 @@ jobs:
       - name: Trigger First Pipeline
         uses: actions/github-script@v6
         with:
+          github-token: ${{ secrets.token}}
           script: |
             const response = await github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
@@ -24,6 +28,7 @@ jobs:
       - name: Trigger Second Pipeline
         uses: actions/github-script@v6
         with:
+          github-token: ${{ secrets.token }}
           script: |
             const response = await github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
