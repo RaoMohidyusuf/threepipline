@@ -1,7 +1,7 @@
 name: First Pipeline
 
 on:
-  workflow_dispatch:  # Trigger manually or via API
+  workflow_dispatch:  
 
 jobs:
   setup-env:
