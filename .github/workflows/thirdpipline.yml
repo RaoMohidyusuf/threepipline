@@ -10,11 +10,11 @@ permissions:
 
 jobs:
   call-other-pipelines:
-    uses: ./.github/workflows/firstpipeline.yml
+    uses: ./.github/workflows/firstpipline.yml
     with: {}
 
   call-second-pipelines:
-    uses: ./.github/workflows/secondpipeline.yml
+    uses: ./.github/workflows/secondpipline.yml
     with: {}
   process-results:
     needs: call-other-pipelines
