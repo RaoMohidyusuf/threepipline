@@ -10,34 +10,12 @@ permissions:
 
 jobs:
   call-other-pipelines:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Trigger First Pipeline
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.token}}
-          script: |
-            const response = await github.rest.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              workflow_id: "firstpipeline.yml",
-              ref: context.ref
-            });
-            console.log("Triggered First Pipeline:", response.status);
+    uses: ./.github/workflows/firstpipeline.yml
+    with: {}
 
-      - name: Trigger Second Pipeline
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.token }}
-          script: |
-            const response = await github.rest.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              workflow_id: "secondpipeline.yml",
-              ref: context.ref
-            });
-            console.log("Triggered Second Pipeline:", response.status);
-
+  call-second-pipelines:
+    uses: ./.github/workflows/secondpipeline.yml
+    with: {}
   process-results:
     needs: call-other-pipelines
     runs-on: ubuntu-latest
